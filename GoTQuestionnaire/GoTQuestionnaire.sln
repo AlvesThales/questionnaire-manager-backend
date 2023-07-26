@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Rest", "GoTQuestionnaire.Rest\GoTQuestionnaire.Rest.csproj", "{ED4B440C-2505-40F6-8C4B-E0C4626FC999}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Infrastructure", "GoTQuestionnaire.Infrastructure\GoTQuestionnaire.Infrastructure.csproj", "{22E9168A-B4DC-4816-A489-3DCCB7A6092B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Application", "GoTQuestionnaire.Application\GoTQuestionnaire.Application.csproj", "{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{ED4B440C-2505-40F6-8C4B-E0C4626FC999}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ED4B440C-2505-40F6-8C4B-E0C4626FC999}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ED4B440C-2505-40F6-8C4B-E0C4626FC999}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22E9168A-B4DC-4816-A489-3DCCB7A6092B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22E9168A-B4DC-4816-A489-3DCCB7A6092B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22E9168A-B4DC-4816-A489-3DCCB7A6092B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22E9168A-B4DC-4816-A489-3DCCB7A6092B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

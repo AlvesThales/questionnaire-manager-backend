@@ -107,6 +107,29 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "GoTQuestionnaire.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "GoTQuestionnaire.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/GoTQuestionnaire.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GoTQuestionnaire.Application.dll": {}
+        }
+      },
+      "GoTQuestionnaire.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/GoTQuestionnaire.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GoTQuestionnaire.Infrastructure.dll": {}
+        }
       }
     }
   },
@@ -460,10 +483,22 @@
         "swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "GoTQuestionnaire.Application/1.0.0": {
+      "type": "project",
+      "path": "../GoTQuestionnaire.Application/GoTQuestionnaire.Application.csproj",
+      "msbuildProject": "../GoTQuestionnaire.Application/GoTQuestionnaire.Application.csproj"
+    },
+    "GoTQuestionnaire.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../GoTQuestionnaire.Infrastructure/GoTQuestionnaire.Infrastructure.csproj",
+      "msbuildProject": "../GoTQuestionnaire.Infrastructure/GoTQuestionnaire.Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "GoTQuestionnaire.Application >= 1.0.0",
+      "GoTQuestionnaire.Infrastructure >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 7.0.9",
       "Swashbuckle.AspNetCore >= 6.5.0"
     ]
@@ -493,7 +528,14 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Application\\GoTQuestionnaire.Application.csproj": {
+              "projectPath": "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Application\\GoTQuestionnaire.Application.csproj"
+            },
+            "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Infrastructure\\GoTQuestionnaire.Infrastructure.csproj": {
+              "projectPath": "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Infrastructure\\GoTQuestionnaire.Infrastructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
