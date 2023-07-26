@@ -1,5 +1,9 @@
+using GoTQuestionnaire.Rest.Startup;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddDependencyInjection(builder.Configuration);
 // Add services to the container.
 
 builder.Services.AddControllers();
