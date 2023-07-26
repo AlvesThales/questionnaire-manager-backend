@@ -12,5 +12,8 @@ public class BaseController : ControllerBase
         Mediator = mediator;
     }
     
-    
+    protected IActionResult Created()
+    {
+        return StatusCode(201);
+    }
 }

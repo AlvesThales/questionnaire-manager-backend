@@ -2,6 +2,16 @@
   "version": 3,
   "targets": {
     "net7.0": {
+      "GoTQuestionnaire.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/GoTQuestionnaire.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/GoTQuestionnaire.Domain.dll": {}
+        }
+      },
       "GoTQuestionnaire.Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -15,6 +25,11 @@
     }
   },
   "libraries": {
+    "GoTQuestionnaire.Domain/1.0.0": {
+      "type": "project",
+      "path": "../GoTQuestionnaire.Domain/GoTQuestionnaire.Domain.csproj",
+      "msbuildProject": "../GoTQuestionnaire.Domain/GoTQuestionnaire.Domain.csproj"
+    },
     "GoTQuestionnaire.Infrastructure/1.0.0": {
       "type": "project",
       "path": "../GoTQuestionnaire.Infrastructure/GoTQuestionnaire.Infrastructure.csproj",
@@ -23,6 +38,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "GoTQuestionnaire.Domain >= 1.0.0",
       "GoTQuestionnaire.Infrastructure >= 1.0.0"
     ]
   },
@@ -51,6 +67,9 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Domain\\GoTQuestionnaire.Domain.csproj": {
+              "projectPath": "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Domain\\GoTQuestionnaire.Domain.csproj"
+            },
             "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Infrastructure\\GoTQuestionnaire.Infrastructure.csproj": {
               "projectPath": "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Infrastructure\\GoTQuestionnaire.Infrastructure.csproj"
             }

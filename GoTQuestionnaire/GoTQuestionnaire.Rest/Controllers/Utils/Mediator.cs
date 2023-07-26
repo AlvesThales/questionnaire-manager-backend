@@ -5,7 +5,7 @@ using GoTQuestionnaire.Infrastructure.Utils;
 
 namespace GoTQuestionnaire.Rest.Controllers.Utils;
 
-public class Mediator
+public class Mediator : IMediator
 {
     private readonly IServiceProvider _provider;
 

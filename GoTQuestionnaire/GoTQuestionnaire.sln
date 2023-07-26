@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Infrastruc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Application", "GoTQuestionnaire.Application\GoTQuestionnaire.Application.csproj", "{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Domain", "GoTQuestionnaire.Domain\GoTQuestionnaire.Domain.csproj", "{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10F5A00E-5933-438C-9D9A-B72D7AEA50D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

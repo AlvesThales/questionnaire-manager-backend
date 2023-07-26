@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "URvmvLn+AT7ZxK1kue8rmFkQcZttmm6HYujcNWbl+/TosmBbncLnKAesWmy83DbvxghY7MWRmkIobpwn/l0UkQ==",
+  "dgSpecHash": "Sz0urD4OYW8dCaEbOI2p3iftYZreUOQXq4TE1PY+juro+odzQdnrs2/jXOsP2tTSmA+jnjy4MQNZruIKUEm9BA==",
   "success": true,
   "projectFilePath": "C:\\Users\\thale\\projetos\\got-questionnaire-backend\\GoTQuestionnaire\\GoTQuestionnaire.Rest\\GoTQuestionnaire.Rest.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\thale\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\thale\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
     "C:\\Users\\thale\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\thale\\.nuget\\packages\\swashbuckle.aspnetcore.annotations\\6.5.0\\swashbuckle.aspnetcore.annotations.6.5.0.nupkg.sha512",
     "C:\\Users\\thale\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\thale\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
     "C:\\Users\\thale\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
