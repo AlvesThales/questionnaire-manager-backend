@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Domain", "GoTQuestionnaire.Domain\GoTQuestionnaire.Domain.csproj", "{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTQuestionnaire.Data", "GoTQuestionnaire.Data\GoTQuestionnaire.Data.csproj", "{3ADAFB88-25A3-49DE-997D-6D0E58271702}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB0A1D7D-C310-42DD-8C78-6FB5EDA877DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ADAFB88-25A3-49DE-997D-6D0E58271702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ADAFB88-25A3-49DE-997D-6D0E58271702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ADAFB88-25A3-49DE-997D-6D0E58271702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ADAFB88-25A3-49DE-997D-6D0E58271702}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

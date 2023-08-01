@@ -12,8 +12,19 @@ public class BaseController : ControllerBase
         Mediator = mediator;
     }
     
+    protected IActionResult Ok<T>(T result)
+    {
+        // return base.Ok(Envelope.Ok(result));
+        return base.Ok();
+    }
+    
     protected IActionResult Created()
     {
         return StatusCode(201);
+    }
+
+    protected IActionResult Unprocessable(string message)
+    {
+        return base.UnprocessableEntity(message);
     }
 }
