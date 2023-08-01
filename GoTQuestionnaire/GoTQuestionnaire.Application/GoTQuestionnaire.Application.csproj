@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\GoTQuestionnaire.Data\GoTQuestionnaire.Data.csproj" />
       <ProjectReference Include="..\GoTQuestionnaire.Domain\GoTQuestionnaire.Domain.csproj" />
       <ProjectReference Include="..\GoTQuestionnaire.Infrastructure\GoTQuestionnaire.Infrastructure.csproj" />
     </ItemGroup>

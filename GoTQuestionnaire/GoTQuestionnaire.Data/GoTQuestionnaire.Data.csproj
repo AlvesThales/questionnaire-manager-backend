@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\GoTQuestionnaire.Infrastructure\GoTQuestionnaire.Infrastructure.csproj" />
+      <ProjectReference Include="..\GoTQuestionnaire.Domain\GoTQuestionnaire.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
     </ItemGroup>
 
 </Project>
