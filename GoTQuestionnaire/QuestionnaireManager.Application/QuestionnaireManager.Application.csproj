@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>QuestionnaireManager.Application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\QuestionnaireManager.Data\QuestionnaireManager.Data.csproj" />
+      <ProjectReference Include="..\QuestionnaireManager.Domain\QuestionnaireManager.Domain.csproj" />
+      <ProjectReference Include="..\QuestionnaireManager.Infrastructure\QuestionnaireManager.Infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>
