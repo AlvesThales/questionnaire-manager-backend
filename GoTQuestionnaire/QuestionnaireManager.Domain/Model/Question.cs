@@ -4,8 +4,10 @@ namespace QuestionnaireManager.Domain.Model;
 
 public class Question
 {
-    public int Id { get; }
-    private string Description { get; set; }
+    public int Id { get; set; }
+    public int QuestionnaireId { get; set; }
+    public int ParentAnswerId { get; set; }
+    public string Description { get; set; }
     public virtual List<Answer>? Answers { get; set; } = new();
     public virtual Answer? ParentAnswer { get; set; }
 

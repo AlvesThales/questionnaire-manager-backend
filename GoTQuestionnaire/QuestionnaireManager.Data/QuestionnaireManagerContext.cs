@@ -13,6 +13,32 @@ public class QuestionnaireManagerContext : DbContext
     public QuestionnaireManagerContext(DbContextOptions<QuestionnaireManagerContext> options)
         : base(options)
     {
+    }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Configure Questionnaire-Question relationship
+        modelBuilder.Entity<Questionnaire>()
+            .HasMany(q => q.Questions)
+            .WithOne()
+            .HasForeignKey("QuestionnaireId");
 
+        // Configure Questionnaire-RootQuestion relationship
+        modelBuilder.Entity<Questionnaire>()
+            .HasOne(q => q.RootQuestion)
+            .WithOne()
+            .HasForeignKey<Question>("QuestionnaireId");
+
+        // Configure Question-Answer relationship
+        modelBuilder.Entity<Question>()
+            .HasMany(q => q.Answers)
+            .WithOne(a => a.ParentQuestion)
+            .HasForeignKey("ParentQuestionId");
+
+        // Configure Answer-ChildQuestion relationship
+        modelBuilder.Entity<Answer>()
+            .HasOne(a => a.ChildQuestion)
+            .WithOne(q => q.ParentAnswer)
+            .HasForeignKey<Question>("AnswerId");
     }
 }
