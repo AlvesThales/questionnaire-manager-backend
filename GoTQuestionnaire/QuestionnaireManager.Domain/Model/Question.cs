@@ -10,7 +10,7 @@ public class Question
     public string Description { get; set; }
     public virtual List<Answer>? Answers { get; set; } = new();
     public virtual Answer? ParentAnswer { get; set; }
-
+    public bool IsRoot { get; set; } = false;
     public Question(string description)
     {
         Description = description;

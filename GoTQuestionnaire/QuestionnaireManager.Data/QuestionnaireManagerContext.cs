@@ -23,12 +23,6 @@ public class QuestionnaireManagerContext : DbContext
             .WithOne()
             .HasForeignKey("QuestionnaireId");
 
-        // Configure Questionnaire-RootQuestion relationship
-        modelBuilder.Entity<Questionnaire>()
-            .HasOne(q => q.RootQuestion)
-            .WithOne()
-            .HasForeignKey<Question>("QuestionnaireId");
-
         // Configure Question-Answer relationship
         modelBuilder.Entity<Question>()
             .HasMany(q => q.Answers)

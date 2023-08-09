@@ -22,7 +22,6 @@ public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
 
         if (!questionnaire.HasRoot)
         {
-            questionnaire.RootQuestion = command.Question;
             questionnaire.HasRoot = true;
             questionnaire.Questions.Add(command.Question);
             await _questionnaireRepository.SaveChangesAsync();
