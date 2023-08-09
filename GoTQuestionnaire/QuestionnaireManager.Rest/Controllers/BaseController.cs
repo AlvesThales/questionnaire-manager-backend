@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuestionnaireManager.Rest.Controllers.Utils;
+using QuestionnaireManager.Rest.Utils;
 
 namespace QuestionnaireManager.Rest.Controllers;
 
@@ -14,8 +15,7 @@ public class BaseController : ControllerBase
     
     protected IActionResult Ok<T>(T result)
     {
-        // return base.Ok(Envelope.Ok(result));
-        return base.Ok();
+        return base.Ok(Envelope.Ok(result));
     }
     
     protected IActionResult Created()

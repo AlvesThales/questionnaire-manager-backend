@@ -6,6 +6,7 @@ namespace QuestionnaireManager.Data.Repositories;
 public interface IQuestionnaireRepository
 {
     Task<Questionnaire?> GetByIdAsync(int id);
+    Task AddAsync(Questionnaire questionnaire);
     Task SaveChangesAsync();
 }
 
@@ -22,7 +23,12 @@ public class QuestionnaireRepository : IQuestionnaireRepository
     {
         return await _context.Questionnaires.FindAsync(id);
     }
-    
+
+    public async Task AddAsync(Questionnaire questionnaire)
+    {
+        await _context.Questionnaires.AddAsync(questionnaire);
+    }
+
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();

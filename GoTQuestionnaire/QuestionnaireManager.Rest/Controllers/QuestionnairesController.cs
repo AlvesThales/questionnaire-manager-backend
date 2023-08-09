@@ -1,6 +1,6 @@
-﻿using QuestionnaireManager.Infrastructure.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using QuestionnaireManager.Application.Commands.CreateQuestion;
+﻿using Microsoft.AspNetCore.Mvc;
+using QuestionnaireManager.Application.Commands.CreateQuestionnaire;
+using QuestionnaireManager.Application.Queries.GetQuestionnaireById;
 using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Rest.Controllers.Utils;
 using QuestionnaireManager.Rest.Model;
@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace QuestionnaireManager.Rest.Controllers;
 
-[Route("[controller]")]
+[Route("questionnaires")]
 public class QuestionnairesController : BaseController
 {
     public QuestionnairesController(IMediator mediator) : base(mediator)
@@ -16,28 +16,37 @@ public class QuestionnairesController : BaseController
     }
 
     [HttpPost]
-    [Route("questionnaires")]
     [SwaggerResponse(201, "Created")]
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(404, "Not Found")]
     [SwaggerResponse(422, "UnprocessableEntity")]
     [SwaggerResponse(500, "Internal Server Error")]
-    public async Task<IActionResult> CreateQuestionnaire([FromBody] CreateQuestionRequest request)
+    public async Task<IActionResult> CreateQuestionnaire([FromBody] CreateQuestionnaireRequest request)
     {
 
-        throw new NotImplementedException();
+        var command =
+            new CreateQuestionnaireCommand(
+                new Questionnaire(request.Name, request.MaxAnswers, request.MaxQuestions));
+
+        var result = await Mediator.DispatchAsync(command);
+
+        return result.Failure ? Problem() : Created();
     }
-    //
-    // [HttpGet]
-    // [SwaggerResponse(200, "Ok")]
-    // [SwaggerResponse(400, "Bad Request")]
-    // [SwaggerResponse(404, "Not Found")]
-    // [SwaggerResponse(422, "UnprocessableEntity")]
-    // [SwaggerResponse(500, "Internal Server Error")]
-    // public IActionResult Get()
-    // {
-    //     return Ok(new Question("What is your favorite House?"));
-    // }
+    
+    [HttpGet]
+    [SwaggerResponse(200, "Ok")]
+    [SwaggerResponse(400, "Bad Request")]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(422, "UnprocessableEntity")]
+    [SwaggerResponse(500, "Internal Server Error")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var query = new GetQuestionnaireByIdQuery(id);
+        var questionnaire = await Mediator.DispatchAsync<Questionnaire>(query);
+        return questionnaire == null ? 
+            NotFound($"Questionnaire with ID {id} not found.") : 
+            Ok(questionnaire);
+    }
     
     [HttpPost]
     [Route("questions")]

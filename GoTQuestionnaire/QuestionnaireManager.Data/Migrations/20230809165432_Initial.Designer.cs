@@ -11,7 +11,7 @@ using QuestionnaireManager.Data;
 namespace QuestionnaireManager.Data.Migrations
 {
     [DbContext(typeof(QuestionnaireManagerContext))]
-    [Migration("20230808164201_Initial")]
+    [Migration("20230809165432_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -96,6 +96,10 @@ namespace QuestionnaireManager.Data.Migrations
 
                     b.Property<int>("MaxQuestions")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

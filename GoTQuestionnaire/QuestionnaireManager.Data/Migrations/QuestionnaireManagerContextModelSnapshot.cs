@@ -94,6 +94,10 @@ namespace QuestionnaireManager.Data.Migrations
                     b.Property<int>("MaxQuestions")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Questionnaires");
