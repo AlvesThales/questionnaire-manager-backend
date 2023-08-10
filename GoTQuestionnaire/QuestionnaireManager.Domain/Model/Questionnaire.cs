@@ -7,12 +7,13 @@ public class Questionnaire
     public int MaxAnswers { get; set; }
     public int MaxQuestions { get; set; }
     public bool HasRoot { get; set; }
-    public List<Question> Questions { get; } = new();
+    public List<Question> Questions { get; set; }
 
     public Questionnaire(string name, int maxAnswers, int maxQuestions)
     {
         Name = name;
         MaxAnswers = maxAnswers;
         MaxQuestions = maxQuestions;
+        Questions = new List<Question>();
     }
 }

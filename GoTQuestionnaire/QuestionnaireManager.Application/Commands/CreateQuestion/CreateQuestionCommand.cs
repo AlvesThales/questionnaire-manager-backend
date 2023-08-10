@@ -1,5 +1,3 @@
-﻿using QuestionnaireManager.Domain.Model;
+﻿namespace QuestionnaireManager.Application.Commands.CreateQuestion;
 
-namespace QuestionnaireManager.Application.Commands.CreateQuestion;
-
-public record CreateQuestionCommand(int QuestionnaireId, int ParentAnswerId, Question Question) : ICommand;
+public record CreateQuestionCommand(int QuestionnaireId, int ParentAnswerId, string Description) : ICommand;

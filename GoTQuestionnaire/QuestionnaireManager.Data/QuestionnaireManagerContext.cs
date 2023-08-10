@@ -21,18 +21,21 @@ public class QuestionnaireManagerContext : DbContext
         modelBuilder.Entity<Questionnaire>()
             .HasMany(q => q.Questions)
             .WithOne()
-            .HasForeignKey("QuestionnaireId");
+            .HasForeignKey("QuestionnaireId")
+            .IsRequired(false);
 
         // Configure Question-Answer relationship
         modelBuilder.Entity<Question>()
             .HasMany(q => q.Answers)
             .WithOne(a => a.ParentQuestion)
-            .HasForeignKey("ParentQuestionId");
+            .HasForeignKey("ParentQuestionId")
+            .IsRequired(false);
 
         // Configure Answer-ChildQuestion relationship
         modelBuilder.Entity<Answer>()
             .HasOne(a => a.ChildQuestion)
             .WithOne(q => q.ParentAnswer)
-            .HasForeignKey<Question>("AnswerId");
+            .HasForeignKey<Question>("ParentAnswerId")
+            .IsRequired(false);
     }
 }

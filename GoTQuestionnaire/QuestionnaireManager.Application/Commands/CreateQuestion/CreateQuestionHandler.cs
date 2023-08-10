@@ -1,4 +1,5 @@
 ﻿using QuestionnaireManager.Data.Repositories;
+using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Infrastructure.Exceptions;
 using QuestionnaireManager.Infrastructure.Utils;
 
@@ -25,27 +26,24 @@ public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
         {
             throw new QuestionsLimitReachedException();
         }
-
-        if (!questionnaire.HasRoot)
-        {
-            questionnaire.HasRoot = true;
-            questionnaire.Questions.Add(command.Question);
-            await _questionnaireRepository.SaveChangesAsync();
-            return Result.Ok();
-        }
-
+        
         var answer = await _answerRepository.GetByIdAsync(command.ParentAnswerId);
         
         if (answer == null)
             return Result.Fail("Answer not found");
         
         if (answer.ChildQuestion != null)
-            return Result.Fail("Answer already have a question");
+            return Result.Fail("Answer already have a following question");
 
-        answer.ChildQuestion = command.Question;
+        var question = new Question(command.Description)
+        {
+            QuestionnaireId = command.QuestionnaireId
+        };
+
+        answer.ChildQuestion = question;
         await _answerRepository.SaveChangesAsync();
 
-        questionnaire.Questions.Add(command.Question);
+        questionnaire.Questions.Add(question);
         await _questionnaireRepository.SaveChangesAsync();
         
         return Result.Ok();

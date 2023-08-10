@@ -5,7 +5,6 @@ using QuestionnaireManager.Application.Commands.UpdateQuestionnaire;
 using QuestionnaireManager.Application.Queries.GetQuestionnaireById;
 using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Rest.Controllers.Utils;
-using QuestionnaireManager.Rest.Model;
 using QuestionnaireManager.Rest.Model.Request;
 using QuestionnaireManager.Rest.Utils;
 using Swashbuckle.AspNetCore.Annotations;

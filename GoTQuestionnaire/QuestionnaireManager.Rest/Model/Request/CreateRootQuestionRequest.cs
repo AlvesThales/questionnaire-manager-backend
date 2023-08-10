@@ -1,7 +1,6 @@
 ﻿namespace QuestionnaireManager.Rest.Model.Request;
 
-public class CreateQuestionRequest
+public class CreateRootQuestionRequest
 {
     public string Description { get; set; }
-    public int ParentAnswerId { get; set; }
 }

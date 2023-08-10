@@ -1,0 +1,108 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using QuestionnaireManager.Application.Commands.CreateQuestion;
+using QuestionnaireManager.Application.Commands.CreateRootQuestion;
+using QuestionnaireManager.Application.Commands.DeleteQuestion;
+using QuestionnaireManager.Application.Commands.UpdateQuestion;
+using QuestionnaireManager.Application.Queries.GetQuestionById;
+using QuestionnaireManager.Rest.Controllers.Utils;
+using QuestionnaireManager.Rest.Model.Request;
+using QuestionnaireManager.Rest.Utils;
+using Swashbuckle.AspNetCore.Annotations;
+
+namespace QuestionnaireManager.Rest.Controllers;
+
+[Route("questionnaires/{questionnaireId:int}")]
+public class QuestionsController : BaseController
+{
+    public QuestionsController(IMediator mediator) : base(mediator)
+    {
+    }
+
+    [HttpPost]
+    [Route("root-question")]
+    [SwaggerResponse(201, "Created")]
+    [SwaggerResponse(400, "Bad Request")]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(422, "UnprocessableEntity")]
+    [SwaggerResponse(500, "Internal Server Error")]
+    public async Task<IActionResult> CreateRootQuestion([FromBody] CreateRootQuestionRequest request, int questionnaireId)
+    {
+        var command =
+            new CreateRootQuestionCommand(questionnaireId, request.Description);
+
+        var result = await Mediator.DispatchAsync(command);
+
+        if (result.Failure)
+        {
+            return result.ErrorMessage == "Questionnaire not found" ? 
+                NotFound($"Questionnaire with ID {questionnaireId} not found.") : 
+                Problem(result.ErrorMessage);
+        }
+        return Created();
+    }
+    
+    [HttpPost]
+    [Route("questions")]
+    [SwaggerResponse(201, "Created")]
+    [SwaggerResponse(400, "Bad Request")]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(422, "UnprocessableEntity")]
+    [SwaggerResponse(500, "Internal Server Error")]
+    public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionRequest request, int questionnaireId)
+    {
+        var command =
+            new CreateQuestionCommand(questionnaireId, request.ParentAnswerId, request.Description);
+
+        var result = await Mediator.DispatchAsync(command);
+
+        return result.Failure ? Problem(result.ErrorMessage) : Created();
+    }
+    
+    [HttpGet("questions/{questionId:int}")]
+    [SwaggerResponse(200, "Ok")]
+    [SwaggerResponse(400, "Bad Request")]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(422, "UnprocessableEntity")]
+    [SwaggerResponse(500, "Internal Server Error")]
+    public async Task<IActionResult> GetQuestion(int questionId)
+    {
+        var query = new GetQuestionByIdQuery(questionId);
+        var question = await Mediator.DispatchAsync(query);
+        return question == null ? 
+            NotFound($"Question with ID {questionId} not found.") : 
+            Ok(question);
+    }
+    
+    [HttpPut("questions/{questionId:int}")]
+    [SwaggerResponse(200, "Created")]
+    [SwaggerResponse(400, "Bad Request")]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(422, "UnprocessableEntity")]
+    [SwaggerResponse(500, "Internal Server Error")]
+    public async Task<IActionResult> UpdateQuestion(int questionId, [FromBody] UpdateQuestionRequest request)
+    {
+        var command =
+            new UpdateQuestionCommand(
+                questionId, request.Description);
+
+        var result = await Mediator.DispatchAsync(command);
+
+        return result.Failure ?  NotFound() : NoContent();
+
+    }
+    
+    [HttpDelete("questions/{questionId:int}")]
+    [SwaggerResponse(200, "Ok")]
+    [SwaggerResponse(400, "Bad Request", typeof(Envelope))]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(500, "Internal Server Error", typeof(Envelope))]
+    public async Task<IActionResult> DeleteQuestion(int questionId)
+    {
+        var command =
+            new DeleteQuestionCommand(questionId);
+
+        var result = await Mediator.DispatchAsync(command);
+
+        return result.Failure ?  NotFound() : NoContent();;
+    }
+}
