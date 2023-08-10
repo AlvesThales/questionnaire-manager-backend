@@ -15,6 +15,11 @@ public class QuestionnaireManagerContext : DbContext
     {
     }
     
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configure Questionnaire-Question relationship
@@ -30,6 +35,13 @@ public class QuestionnaireManagerContext : DbContext
             .WithOne(a => a.ParentQuestion)
             .HasForeignKey("ParentQuestionId")
             .IsRequired(false);
+        
+        modelBuilder.Entity<Question>()
+            .HasOne(q => q.Questionnaire)
+            .WithMany(qn => qn.Questions)
+            .HasForeignKey(q => q.QuestionnaireId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure Answer-ChildQuestion relationship
         modelBuilder.Entity<Answer>()

@@ -20,7 +20,7 @@ public class CreateRootQuestionHandler : ICommandHandler<CreateRootQuestionComma
         if (questionnaire == null)
             return Result.Fail("Questionnaire not found");
         
-        var existingRootQuestion = questionnaire.Questions.SingleOrDefault(q => q.IsRoot);
+        var existingRootQuestion = questionnaire.Questions.FirstOrDefault(q => q.IsRoot);
         if (existingRootQuestion != null)
             questionnaire.Questions.Remove(existingRootQuestion);
         
