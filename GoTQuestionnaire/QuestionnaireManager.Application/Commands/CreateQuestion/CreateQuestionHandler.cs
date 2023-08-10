@@ -1,5 +1,4 @@
 ﻿using QuestionnaireManager.Data.Repositories;
-using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Infrastructure.Exceptions;
 using QuestionnaireManager.Infrastructure.Utils;
 
@@ -9,6 +8,13 @@ public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
 {
     private readonly IQuestionnaireRepository _questionnaireRepository;
     private readonly IAnswerRepository _answerRepository;
+
+    public CreateQuestionHandler(IQuestionnaireRepository questionnaireRepository, IAnswerRepository answerRepository)
+    {
+        _questionnaireRepository = questionnaireRepository;
+        _answerRepository = answerRepository;
+    }
+
     public async Task<Result> HandleAsync(CreateQuestionCommand command)
     {
         var questionnaire = await _questionnaireRepository.GetByIdAsync(command.QuestionnaireId);

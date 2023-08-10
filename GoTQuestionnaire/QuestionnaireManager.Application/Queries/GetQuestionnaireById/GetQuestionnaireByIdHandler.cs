@@ -1,6 +1,5 @@
 ﻿using QuestionnaireManager.Data.Repositories;
 using QuestionnaireManager.Domain.Model;
-using QuestionnaireManager.Infrastructure.Utils;
 
 namespace QuestionnaireManager.Application.Queries.GetQuestionnaireById;
 

@@ -1,6 +1,6 @@
 ﻿namespace QuestionnaireManager.Rest.Model.Request;
 
-public class CreateQuestionnaireRequest
+public class UpdateQuestionnaireRequest
 {
     public string Name { get; set; }
     public int MaxQuestions { get; set; }

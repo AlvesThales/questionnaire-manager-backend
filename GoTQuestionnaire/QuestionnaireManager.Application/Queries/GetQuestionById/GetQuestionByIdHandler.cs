@@ -1,5 +1,4 @@
-﻿using QuestionnaireManager.Application.Queries.GetQuestions;
-using QuestionnaireManager.Data.Repositories;
+﻿using QuestionnaireManager.Data.Repositories;
 using QuestionnaireManager.Domain.Model;
 
 namespace QuestionnaireManager.Application.Queries.GetQuestionById;

@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuestionnaireManager.Application.Commands;
 using QuestionnaireManager.Application.Commands.CreateQuestionnaire;
+using QuestionnaireManager.Application.Commands.DeleteQuestionnaire;
+using QuestionnaireManager.Application.Commands.UpdateQuestionnaire;
 using QuestionnaireManager.Application.Queries;
 using QuestionnaireManager.Application.Queries.GetQuestionnaireById;
 using QuestionnaireManager.Data;
@@ -17,6 +19,8 @@ public static class Registry
         services.AddScoped<IMediator, Mediator>();
         
         services.AddScoped<ICommandHandler<CreateQuestionnaireCommand>, CreateQuestionnaireHandler>();
+        services.AddScoped<ICommandHandler<UpdateQuestionnaireCommand>, UpdateQuestionnaireHandler>();
+        services.AddScoped<ICommandHandler<DeleteQuestionnaireCommand>, DeleteQuestionnaireHandler>();
 
         services.AddScoped<IQueryHandlerAsync<GetQuestionnaireByIdQuery, Questionnaire>, GetQuestionnaireByIdHandler>();
         

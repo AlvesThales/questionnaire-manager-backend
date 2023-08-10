@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QuestionnaireManager.Application.Commands.CreateQuestionnaire;
+using QuestionnaireManager.Application.Commands.DeleteQuestionnaire;
+using QuestionnaireManager.Application.Commands.UpdateQuestionnaire;
 using QuestionnaireManager.Application.Queries.GetQuestionnaireById;
 using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Rest.Controllers.Utils;
 using QuestionnaireManager.Rest.Model;
+using QuestionnaireManager.Rest.Model.Request;
+using QuestionnaireManager.Rest.Utils;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace QuestionnaireManager.Rest.Controllers;
@@ -33,7 +37,7 @@ public class QuestionnairesController : BaseController
         return result.Failure ? Problem() : Created();
     }
     
-    [HttpGet]
+    [HttpGet("{id:int}")]
     [SwaggerResponse(200, "Ok")]
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(404, "Not Found")]
@@ -48,17 +52,50 @@ public class QuestionnairesController : BaseController
             Ok(questionnaire);
     }
     
-    [HttpPost]
-    [Route("questions")]
-
-    [SwaggerResponse(201, "Created")]
+    [HttpPut("{id:int}")]
+    [SwaggerResponse(200, "Created")]
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(404, "Not Found")]
     [SwaggerResponse(422, "UnprocessableEntity")]
     [SwaggerResponse(500, "Internal Server Error")]
-    public async Task<IActionResult> CreateQuestion([FromBody]CreateQuestionRequest request)
+    public async Task<IActionResult> UpdateQuestionnaire(int id, [FromBody] UpdateQuestionnaireRequest request)
     {
-        throw new NotImplementedException();
+        var command =
+            new UpdateQuestionnaireCommand(
+                id, request.Name, request.MaxAnswers, request.MaxQuestions);
+
+        var result = await Mediator.DispatchAsync(command);
+
+        return result.Failure ?  NotFound() : NoContent();
+
+    }
+    
+    [HttpDelete("{id:int}")]
+    [SwaggerResponse(200, "Ok")]
+    [SwaggerResponse(400, "Bad Request", typeof(Envelope))]
+    [SwaggerResponse(404, "Not Found")]
+    [SwaggerResponse(500, "Internal Server Error", typeof(Envelope))]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var command =
+            new DeleteQuestionnaireCommand(id);
+
+        var result = await Mediator.DispatchAsync(command);
+
+        return result.Failure ?  NotFound() : NoContent();;
+    }
+    
+    // [HttpPost]
+    // [Route("questions")]
+    //
+    // [SwaggerResponse(201, "Created")]
+    // [SwaggerResponse(400, "Bad Request")]
+    // [SwaggerResponse(404, "Not Found")]
+    // [SwaggerResponse(422, "UnprocessableEntity")]
+    // [SwaggerResponse(500, "Internal Server Error")]
+    // public async Task<IActionResult> CreateQuestion([FromBody]CreateQuestionRequest request)
+    // {
+    //     throw new NotImplementedException();
         // var command =
         //     new CreateQuestionCommand(
         //         new Question(request.Description));
@@ -76,5 +113,5 @@ public class QuestionnairesController : BaseController
         // {
         //     return Unprocessable(e.Message);
         // }
-    }
+    // }
 }
