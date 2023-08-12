@@ -4,6 +4,15 @@ using QuestionnaireManager.Infrastructure.Utils;
 
 namespace QuestionnaireManager.Data.Repositories;
 
+public interface IQuestionRepository
+{
+    Task<Question?> GetByIdAsync(int id);
+    Task<Result> UpdateAsync(int id, string description);
+    Task<Result> DeleteAsync(int id);
+    Task AddAsync(Question question);
+    Task SaveChangesAsync();
+}
+
 public class QuestionRepository : IQuestionRepository
 {
     private readonly QuestionnaireManagerContext _context;
@@ -54,14 +63,4 @@ public class QuestionRepository : IQuestionRepository
     {
         await _context.SaveChangesAsync();
     }
-}
-
-public interface IQuestionRepository
-{
-    Task<Question?> GetByIdAsync(int id);
-    Task<Result> UpdateAsync(int id, string description);
-    Task<Result> DeleteAsync(int id);
-    Task AddAsync(Question question);
-    Task SaveChangesAsync();
-
 }

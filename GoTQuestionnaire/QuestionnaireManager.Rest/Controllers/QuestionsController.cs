@@ -6,6 +6,7 @@ using QuestionnaireManager.Application.Commands.UpdateQuestion;
 using QuestionnaireManager.Application.Queries.GetQuestionById;
 using QuestionnaireManager.Rest.Controllers.Utils;
 using QuestionnaireManager.Rest.Model.Request;
+using QuestionnaireManager.Rest.Model.Response;
 using QuestionnaireManager.Rest.Utils;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -52,10 +53,15 @@ public class QuestionsController : BaseController
     {
         var command =
             new CreateQuestionCommand(questionnaireId, request.ParentAnswerId, request.Description);
-
         var result = await Mediator.DispatchAsync(command);
-
-        return result.Failure ? Problem(result.ErrorMessage) : Created();
+        if (!result.Failure) return Created();
+        
+        return result.ErrorMessage switch
+        {
+            "Questionnaire not found" => NotFound($"Questionnaire with ID {questionnaireId} not found."),
+            "Answer not found" => NotFound($"Answer with ID {request.ParentAnswerId} not found."),
+            _ => Problem(result.ErrorMessage)
+        };
     }
     
     [HttpGet("questions/{questionId:int}")]
@@ -68,9 +74,22 @@ public class QuestionsController : BaseController
     {
         var query = new GetQuestionByIdQuery(questionId);
         var question = await Mediator.DispatchAsync(query);
-        return question == null ? 
-            NotFound($"Question with ID {questionId} not found.") : 
-            Ok(question);
+        if (question == null) 
+            return NotFound($"Question with ID {questionId} not found.");
+            
+        return Ok(new GetQuestionResponse
+            {
+                Id = question.Id,
+                QuestionnaireId = question.QuestionnaireId,
+                Description = question.Description,
+                IsRoot = question.IsRoot,
+                Answers = question.Answers.Select(a => new AnswerDto
+                {
+                    Id = a.Id,
+                    Description = a.Description
+                }).ToList()
+            }
+        );
     }
     
     [HttpPut("questions/{questionId:int}")]

@@ -1,13 +1,11 @@
-﻿using QuestionnaireManager.Domain.Model;
-
-namespace QuestionnaireManager.Rest.Model.Response;
+﻿namespace QuestionnaireManager.Rest.Model.Response;
 
 public class GetQuestionnaireResponse
 {
-    public Questionnaire Questionnaire { get; set; }
-
-    public GetQuestionnaireResponse(Questionnaire questionnaire)
-    {
-        Questionnaire = questionnaire;
-    }
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int MaxAnswers { get; set; }
+    public int MaxQuestions { get; set; }
+    public bool HasRoot { get; set; }
+    public virtual ICollection<QuestionDto>? Questions { get; set; }
 }

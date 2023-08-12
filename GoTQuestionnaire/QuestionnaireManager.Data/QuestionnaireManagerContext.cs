@@ -27,27 +27,23 @@ public class QuestionnaireManagerContext : DbContext
             .HasMany(q => q.Questions)
             .WithOne()
             .HasForeignKey("QuestionnaireId")
-            .IsRequired(false);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
 
         // Configure Question-Answer relationship
         modelBuilder.Entity<Question>()
             .HasMany(q => q.Answers)
-            .WithOne(a => a.ParentQuestion)
+            .WithOne()
             .HasForeignKey("ParentQuestionId")
-            .IsRequired(false);
-        
-        modelBuilder.Entity<Question>()
-            .HasOne(q => q.Questionnaire)
-            .WithMany(qn => qn.Questions)
-            .HasForeignKey(q => q.QuestionnaireId)
-            .IsRequired()
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Cascade);
 
         // Configure Answer-ChildQuestion relationship
         modelBuilder.Entity<Answer>()
             .HasOne(a => a.ChildQuestion)
-            .WithOne(q => q.ParentAnswer)
+            .WithOne()
             .HasForeignKey<Question>("ParentAnswerId")
-            .IsRequired(false);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

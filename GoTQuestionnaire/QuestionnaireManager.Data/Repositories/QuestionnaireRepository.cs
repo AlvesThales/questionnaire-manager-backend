@@ -8,6 +8,7 @@ namespace QuestionnaireManager.Data.Repositories;
 public interface IQuestionnaireRepository
 {
     Task<Questionnaire?> GetByIdAsync(int id);
+    Task<List<Questionnaire>> GetAllAsync();
     Task AddAsync(Questionnaire questionnaire);
     Task SaveChangesAsync();
     Task<Result> UpdateAsync(int id, string name, int maxQuestions, int maxAnswers);
@@ -27,6 +28,11 @@ public class QuestionnaireRepository : IQuestionnaireRepository
     public async Task<Questionnaire?> GetByIdAsync(int id)
     {
         return await _context.Questionnaires.FindAsync(id);
+    }
+    
+    public async Task<List<Questionnaire>> GetAllAsync()
+    {
+        return await _context.Questionnaires.ToListAsync();
     }
 
     public async Task AddAsync(Questionnaire questionnaire)
