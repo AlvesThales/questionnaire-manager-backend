@@ -1,6 +1,5 @@
 ﻿using QuestionnaireManager.Data.Repositories;
 using QuestionnaireManager.Domain.Model;
-using QuestionnaireManager.Infrastructure.Exceptions;
 using QuestionnaireManager.Infrastructure.Utils;
 
 namespace QuestionnaireManager.Application.Commands.CreateQuestion;
@@ -24,7 +23,7 @@ public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
         
         if (questionnaire.Questions.Count.Equals(questionnaire.MaxQuestions))
         {
-            throw new QuestionsLimitReachedException();
+            return Result.Fail("Questions limit has been reached.");
         }
         
         var answer = await _answerRepository.GetByIdAsync(command.ParentAnswerId);

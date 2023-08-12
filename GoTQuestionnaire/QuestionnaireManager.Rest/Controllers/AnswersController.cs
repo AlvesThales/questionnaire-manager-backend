@@ -40,6 +40,7 @@ public class AnswersController : BaseController
         {
             "Questionnaire not found" => NotFound($"Questionnaire with ID {questionnaireId} not found."),
             "Question not found" => NotFound($"Question with ID {questionId} not found."),
+            "Answers limit has been reached." => Unprocessable($"Question with ID {questionId} has reached it's answer limit. Can't create more answers."),
             _ => Problem(result.ErrorMessage)
         };
     }

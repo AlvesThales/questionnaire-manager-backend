@@ -1,7 +1,5 @@
-﻿using QuestionnaireManager.Application.Commands.CreateQuestion;
-using QuestionnaireManager.Data.Repositories;
+﻿using QuestionnaireManager.Data.Repositories;
 using QuestionnaireManager.Domain.Model;
-using QuestionnaireManager.Infrastructure.Exceptions;
 using QuestionnaireManager.Infrastructure.Utils;
 
 namespace QuestionnaireManager.Application.Commands.CreateAnswer;
@@ -10,13 +8,11 @@ public class CreateAnswerHandler : ICommandHandler<CreateAnswerCommand>
 {
     private readonly IQuestionnaireRepository _questionnaireRepository;
     private readonly IQuestionRepository _questionRepository;
-    private readonly IAnswerRepository _answerRepository;
 
-    public CreateAnswerHandler(IQuestionnaireRepository questionnaireRepository, IQuestionRepository questionRepository, IAnswerRepository answerRepository)
+    public CreateAnswerHandler(IQuestionnaireRepository questionnaireRepository, IQuestionRepository questionRepository)
     {
         _questionnaireRepository = questionnaireRepository;
         _questionRepository = questionRepository;
-        _answerRepository = answerRepository;
     }
 
     public async Task<Result> HandleAsync(CreateAnswerCommand command)
@@ -31,7 +27,7 @@ public class CreateAnswerHandler : ICommandHandler<CreateAnswerCommand>
         
         if (question.Answers.Count.Equals(questionnaire.MaxAnswers))
         {
-            throw new AnswersLimitReachedException();
+            return Result.Fail("Answers limit has been reached.");
         }
 
         var answer = new Answer(command.Description)
