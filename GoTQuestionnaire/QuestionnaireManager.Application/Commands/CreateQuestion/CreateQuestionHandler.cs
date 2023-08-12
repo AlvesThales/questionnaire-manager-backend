@@ -25,7 +25,7 @@ public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
         {
             return Result.Fail("Questions limit has been reached.");
         }
-        
+
         var answer = await _answerRepository.GetByIdAsync(command.ParentAnswerId);
         
         if (answer == null)

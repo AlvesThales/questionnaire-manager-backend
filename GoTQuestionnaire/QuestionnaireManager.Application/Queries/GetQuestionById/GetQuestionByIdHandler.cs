@@ -15,6 +15,6 @@ public class GetQuestionByIdHandler : IQueryHandlerAsync<GetQuestionByIdQuery, Q
 
     public async Task<Question?> HandleAsync(GetQuestionByIdQuery query)
     {
-        return await _questionRepository.GetByIdAsync(query.Id);
+        return await _questionRepository.GetByIdAsync(query.QuestionnaireId, query.QuestionId);
     }
 }

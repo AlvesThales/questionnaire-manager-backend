@@ -38,13 +38,13 @@ public class QuestionnairesController : BaseController
         return result.Failure ? Problem() : Created();
     }
     
-    [HttpGet]
+    [HttpGet(Name = "GetAllQuestionnaires")]
     [SwaggerResponse(200, "Ok")]
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(404, "Not Found")]
     [SwaggerResponse(422, "UnprocessableEntity")]
     [SwaggerResponse(500, "Internal Server Error")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAllQuestionnaires()
     {
         var query = new GetQuestionnairesQuery();
         var questionnaires = await Mediator.DispatchAsync(query);
@@ -60,20 +60,44 @@ public class QuestionnairesController : BaseController
             {
                 Id = q.Id,
                 Description = q.Description,
-                IsRoot = q.IsRoot
-            }).ToList()
+                IsRoot = q.IsRoot,
+                Links = new List<LinkDto>
+                {
+                    new()
+                    {
+                        Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = q.Id}),
+                        Rel = "child",
+                        Method = "GET"
+                    }
+                }
+            }).ToList(),
+            Links = new List<LinkDto>
+            {
+                new()
+                {
+                    Href = Url.Link("GetAllQuestionnaires", new { questionnaireId = questionnaire.Id }),
+                    Rel = "self",
+                    Method = "GET"
+                },
+                new()
+                {
+                    Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = questionnaire.Questions.FirstOrDefault(q => q.IsRoot).Id }),
+                    Rel = "rootQuestion",
+                    Method = "GET"
+                }
+            }
         }).ToList();
 
         return Ok(response);
     }
     
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:int}", Name = "GetQuestionnaireById")]
     [SwaggerResponse(200, "Ok")]
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(404, "Not Found")]
     [SwaggerResponse(422, "UnprocessableEntity")]
     [SwaggerResponse(500, "Internal Server Error")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetQuestionnaireById(int id)
     {
         var query = new GetQuestionnaireByIdQuery(id);
         var questionnaire = await Mediator.DispatchAsync(query);
@@ -91,8 +115,26 @@ public class QuestionnairesController : BaseController
                 {
                     Id = q.Id,
                     Description = q.Description,
-                    IsRoot = q.IsRoot
-                }).ToList()
+                    IsRoot = q.IsRoot,
+                    Links = new List<LinkDto>
+                    {
+                        new()
+                        {
+                            Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = q.Id}),
+                            Rel = "child",
+                            Method = "GET"
+                        }
+                    }
+                }).ToList(),
+                Links = new List<LinkDto>
+                {
+                    new()
+                    {
+                        Href = Url.Link("GetQuestionnaireById", new { id = questionnaire.Id }),
+                        Rel = "self",
+                        Method = "GET"
+                    }
+                }
             }
         );
     }

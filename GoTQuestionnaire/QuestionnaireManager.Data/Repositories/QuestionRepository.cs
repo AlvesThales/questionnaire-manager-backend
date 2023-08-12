@@ -6,7 +6,7 @@ namespace QuestionnaireManager.Data.Repositories;
 
 public interface IQuestionRepository
 {
-    Task<Question?> GetByIdAsync(int id);
+    Task<Question?> GetByIdAsync(int questionnaireId, int questionId);
     Task<Result> UpdateAsync(int id, string description);
     Task<Result> DeleteAsync(int id);
     Task AddAsync(Question question);
@@ -27,9 +27,10 @@ public class QuestionRepository : IQuestionRepository
         await _context.Questions.AddAsync(question);
     }
 
-    public async Task<Question?> GetByIdAsync(int id)
+    public async Task<Question?> GetByIdAsync(int questionnaireId, int questionId)
     {
-        return await _context.Questions.FindAsync(id);
+        return await _context.Questions
+            .FirstOrDefaultAsync(x => x.QuestionnaireId == questionnaireId && x.Id == questionId);
     }
 
     public async Task<Result> UpdateAsync(int id, string description)

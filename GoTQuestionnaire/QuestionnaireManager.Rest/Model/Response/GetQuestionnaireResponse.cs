@@ -8,4 +8,5 @@ public class GetQuestionnaireResponse
     public int MaxQuestions { get; set; }
     public bool HasRoot { get; set; }
     public virtual ICollection<QuestionDto>? Questions { get; set; }
+    public List<LinkDto> Links { get; set; }
 }

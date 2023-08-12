@@ -2,4 +2,4 @@
 
 namespace QuestionnaireManager.Application.Queries.GetAnswerById;
 
-public record GetAnswerByIdQuery(int Id) : IQuery<Answer>;
+public record GetAnswerByIdQuery(int QuestionnaireId, int QuestionId, int AnswerId) : IQuery<Answer>;

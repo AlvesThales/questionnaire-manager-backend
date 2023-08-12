@@ -65,15 +65,15 @@ public class QuestionsController : BaseController
         };
     }
     
-    [HttpGet("questions/{questionId:int}")]
+    [HttpGet("questions/{questionId:int}", Name = "GetQuestionById")]
     [SwaggerResponse(200, "Ok")]
     [SwaggerResponse(400, "Bad Request")]
     [SwaggerResponse(404, "Not Found")]
     [SwaggerResponse(422, "UnprocessableEntity")]
     [SwaggerResponse(500, "Internal Server Error")]
-    public async Task<IActionResult> GetQuestion(int questionId)
+    public async Task<IActionResult> GetQuestionById(int questionnaireId, int questionId)
     {
-        var query = new GetQuestionByIdQuery(questionId);
+        var query = new GetQuestionByIdQuery(questionnaireId, questionId);
         var question = await Mediator.DispatchAsync(query);
         if (question == null) 
             return NotFound($"Question with ID {questionId} not found.");
@@ -87,8 +87,26 @@ public class QuestionsController : BaseController
                 Answers = question.Answers.Select(a => new AnswerDto
                 {
                     Id = a.Id,
-                    Description = a.Description
-                }).ToList()
+                    Description = a.Description,
+                    Links = new List<LinkDto>
+                    {
+                        new()
+                        {
+                            Href = Url.Link("GetAnswerById", new {questionnaireId = questionnaireId, questionId = questionId, answerId = a.Id}),
+                            Rel = "child",
+                            Method = "GET"
+                        }
+                    }
+                }).ToList(),
+                Links = new List<LinkDto>
+                {
+                    new()
+                    {
+                        Href = Url.Action("GetQuestionById"),
+                        Rel = "self",
+                        Method = "GET"
+                    }
+                }
             }
         );
     }

@@ -21,7 +21,7 @@ public class CreateAnswerHandler : ICommandHandler<CreateAnswerCommand>
         if (questionnaire == null)
             return Result.Fail("Questionnaire not found");
 
-        var question = await _questionRepository.GetByIdAsync(command.ParentQuestionId);
+        var question = await _questionRepository.GetByIdAsync(command.QuestionnaireId, command.ParentQuestionId);
         if (question == null)
             return Result.Fail("Question not found");
         
