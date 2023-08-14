@@ -29,7 +29,6 @@ public class QuestionnairesController : BaseController
     [SwaggerResponse(500, "Internal Server Error")]
     public async Task<IActionResult> CreateQuestionnaire([FromBody] CreateQuestionnaireRequest request)
     {
-
         var command =
             new CreateQuestionnaireCommand(
                 new Questionnaire(request.Name, request.MaxAnswers, request.MaxQuestions));
@@ -49,45 +48,8 @@ public class QuestionnairesController : BaseController
     {
         var query = new GetQuestionnairesQuery();
         var questionnaires = await Mediator.DispatchAsync(query);
-        
-        var response = questionnaires.Select(questionnaire => new GetQuestionnaireResponse
-        {
-            Id = questionnaire.Id,
-            Name = questionnaire.Name,
-            MaxAnswers = questionnaire.MaxAnswers,
-            MaxQuestions = questionnaire.MaxQuestions,
-            HasRoot = questionnaire.HasRoot,
-            Questions = questionnaire.Questions?.Select(q => new QuestionDto
-            {
-                Id = q.Id,
-                Description = q.Description,
-                IsRoot = q.IsRoot,
-                Links = new List<LinkDto>
-                {
-                    new()
-                    {
-                        Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = q.Id}),
-                        Rel = "child",
-                        Method = "GET"
-                    }
-                }
-            }),
-            Links = new List<LinkDto>
-            {
-                new()
-                {
-                    Href = Url.Link("GetAllQuestionnaires", new { questionnaireId = questionnaire.Id }),
-                    Rel = "self",
-                    Method = "GET"
-                },
-                new()
-                {
-                    Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = questionnaire.Questions?.FirstOrDefault(q => q.IsRoot)?.Id }),
-                    Rel = "rootQuestion",
-                    Method = "GET"
-                }
-            }
-        });
+
+        var response = questionnaires.Select(questionnaire => QuestionnaireMapper.Map(questionnaire, Url));
 
         return Ok(response);
     }
