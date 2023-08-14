@@ -7,6 +7,6 @@ public class GetQuestionnaireResponse
     public int MaxAnswers { get; set; }
     public int MaxQuestions { get; set; }
     public bool HasRoot { get; set; }
-    public virtual ICollection<QuestionDto>? Questions { get; set; }
+    public virtual IEnumerable<QuestionDto>? Questions { get; set; } = new List<QuestionDto>();
     public List<LinkDto> Links { get; set; }
 }

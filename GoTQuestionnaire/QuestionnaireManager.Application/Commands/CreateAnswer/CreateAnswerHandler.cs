@@ -22,7 +22,8 @@ public class CreateAnswerHandler : ICommandHandler<CreateAnswerCommand>
             return Result.Fail("Questionnaire not found");
 
         var question = await _questionRepository.GetByIdAsync(command.QuestionnaireId, command.ParentQuestionId);
-        if (question == null)
+        if (questionnaire.Questions != null &&
+            (question == null || questionnaire.Questions.All(q => q.Id != question.Id)))
             return Result.Fail("Question not found");
         
         if (question.Answers.Count.Equals(questionnaire.MaxAnswers))

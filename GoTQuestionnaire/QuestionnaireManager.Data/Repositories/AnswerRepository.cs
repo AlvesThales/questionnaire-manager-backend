@@ -6,7 +6,8 @@ namespace QuestionnaireManager.Data.Repositories;
 
 public interface IAnswerRepository
 {
-    Task<Answer?> GetByIdAsync(int id);
+    Task<Answer?> GetByQuestionnaireAndQuestionAsync(int questionnaireId, int questionId, int answerId);
+    Task<Answer?> GetByIdAsync(int answerId);
     Task<Result> UpdateAsync(int id, string description);
     Task<Result> DeleteAsync(int id);
     Task AddAsync(Answer answer);
@@ -27,9 +28,20 @@ public class AnswerRepository : IAnswerRepository
         await _context.Answers.AddAsync(answer);
     }
     
-    public async Task<Answer?> GetByIdAsync(int id)
+    public async Task<Answer?> GetByQuestionnaireAndQuestionAsync(int questionnaireId, int questionId, int answerId)
     {
-        return await _context.Answers.FindAsync(id);
+        var questionnaire = await _context.Questionnaires
+            .Include(q => q.Questions)
+            .ThenInclude(q => q.Answers)
+            .FirstOrDefaultAsync(q => q.Id == questionnaireId);
+
+        var question = questionnaire?.Questions.FirstOrDefault(q => q.Id == questionId);
+
+        return question?.Answers.FirstOrDefault(a => a.Id == answerId);
+    }    
+    public async Task<Answer?> GetByIdAsync(int answerId)
+    {
+        return await _context.Answers.FindAsync(answerId);
     }
     
     public async Task<Result> UpdateAsync(int id, string description)

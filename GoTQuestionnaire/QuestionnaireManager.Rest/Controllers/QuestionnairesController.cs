@@ -6,6 +6,7 @@ using QuestionnaireManager.Application.Queries.GetQuestionnaireById;
 using QuestionnaireManager.Application.Queries.GetQuestionnaires;
 using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Rest.Controllers.Utils;
+using QuestionnaireManager.Rest.Model.Mappers;
 using QuestionnaireManager.Rest.Model.Request;
 using QuestionnaireManager.Rest.Model.Response;
 using QuestionnaireManager.Rest.Utils;
@@ -56,7 +57,7 @@ public class QuestionnairesController : BaseController
             MaxAnswers = questionnaire.MaxAnswers,
             MaxQuestions = questionnaire.MaxQuestions,
             HasRoot = questionnaire.HasRoot,
-            Questions = questionnaire.Questions.Select(q => new QuestionDto
+            Questions = questionnaire.Questions?.Select(q => new QuestionDto
             {
                 Id = q.Id,
                 Description = q.Description,
@@ -70,7 +71,7 @@ public class QuestionnairesController : BaseController
                         Method = "GET"
                     }
                 }
-            }).ToList(),
+            }),
             Links = new List<LinkDto>
             {
                 new()
@@ -81,12 +82,12 @@ public class QuestionnairesController : BaseController
                 },
                 new()
                 {
-                    Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = questionnaire.Questions.FirstOrDefault(q => q.IsRoot).Id }),
+                    Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = questionnaire.Questions?.FirstOrDefault(q => q.IsRoot)?.Id }),
                     Rel = "rootQuestion",
                     Method = "GET"
                 }
             }
-        }).ToList();
+        });
 
         return Ok(response);
     }
@@ -104,39 +105,7 @@ public class QuestionnairesController : BaseController
         if (questionnaire == null)
             NotFound($"Questionnaire with ID {id} not found.");
 
-        return Ok(new GetQuestionnaireResponse
-            {
-                Id = questionnaire.Id,
-                Name = questionnaire.Name,
-                MaxAnswers = questionnaire.MaxAnswers,
-                MaxQuestions = questionnaire.MaxQuestions,
-                HasRoot = questionnaire.HasRoot,
-                Questions = questionnaire.Questions.Select(q => new QuestionDto
-                {
-                    Id = q.Id,
-                    Description = q.Description,
-                    IsRoot = q.IsRoot,
-                    Links = new List<LinkDto>
-                    {
-                        new()
-                        {
-                            Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaire.Id, questionId = q.Id}),
-                            Rel = "child",
-                            Method = "GET"
-                        }
-                    }
-                }).ToList(),
-                Links = new List<LinkDto>
-                {
-                    new()
-                    {
-                        Href = Url.Link("GetQuestionnaireById", new { id = questionnaire.Id }),
-                        Rel = "self",
-                        Method = "GET"
-                    }
-                }
-            }
-        );
+        return Ok(QuestionnaireMapper.Map(questionnaire, Url));
     }
     
     [HttpPut("{id:int}")]
