@@ -1,6 +1,7 @@
-﻿
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QuestionnaireManager.Infrastructure.Utils;
+
+namespace QuestionnaireManager.UnitTests.Infrastructure;
 
 [TestClass]
 public class ResultTests

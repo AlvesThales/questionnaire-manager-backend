@@ -18,17 +18,16 @@ public class CreateAnswerHandler : ICommandHandler<CreateAnswerCommand>
     public async Task<Result> HandleAsync(CreateAnswerCommand command)
     {
         var questionnaire = await _questionnaireRepository.GetByIdAsync(command.QuestionnaireId);
-        if (questionnaire == null)
-            return Result.Fail("Questionnaire not found");
+        if (questionnaire?.Questions == null)
+            return Result.Fail("Questionnaire not found or contains no questions");
 
-        var question = await _questionRepository.GetByIdAsync(command.QuestionnaireId, command.ParentQuestionId);
-        if (questionnaire.Questions != null &&
-            (question == null || questionnaire.Questions.All(q => q.Id != question.Id)))
+        var question = questionnaire.Questions.FirstOrDefault(q => q.Id == command.ParentQuestionId);
+        if (question == null)
             return Result.Fail("Question not found");
         
         if (question.Answers.Count.Equals(questionnaire.MaxAnswers))
         {
-            return Result.Fail("Answers limit has been reached.");
+            return Result.Fail("Answers limit has been reached");
         }
 
         var answer = new Answer(command.Description)
