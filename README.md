@@ -25,6 +25,7 @@ Features included:
 - Logging
 - Code First Migrations
 - External call to a third-party API
+- HATEOAS Rest architecture
 - SOLID design principles
 - Design patterns (Mediator, Builder)
 - Dependency Injection (defined in Registry.cs)
