@@ -23,7 +23,7 @@ public class CreateQuestionHandler : ICommandHandler<CreateQuestionCommand>
         
         if (questionnaire.Questions.Count.Equals(questionnaire.MaxQuestions))
         {
-            return Result.Fail("Questions limit has been reached.");
+            return Result.Fail("Questions limit has been reached");
         }
 
         var answer = await _answerRepository.GetByIdAsync(command.ParentAnswerId);

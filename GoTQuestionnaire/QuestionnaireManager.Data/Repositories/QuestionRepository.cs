@@ -70,14 +70,14 @@ public class QuestionRepository : IQuestionRepository
     {
         if (question.Answers != null)
         {
-            foreach (var answer in question.Answers.ToList())
-            {
-                _context.Answers.Remove(answer);
-            }
-
             foreach (var childQuestion in question.Answers.Select(a => a.ChildQuestion).ToList())
             {
                 if (childQuestion != null) DeleteQuestionWithRelatedAnswers(childQuestion);
+            }
+            
+            foreach (var answer in question.Answers.ToList())
+            {
+                _context.Answers.Remove(answer);
             }
         }
 

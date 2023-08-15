@@ -12,7 +12,7 @@ using QuestionnaireManager.Data;
 namespace QuestionnaireManager.Data.Migrations
 {
     [DbContext(typeof(QuestionnaireManagerContext))]
-    [Migration("20230815075120_Initial")]
+    [Migration("20230815093956_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -90,9 +90,6 @@ namespace QuestionnaireManager.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<bool>("HasRoot")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MaxAnswers")
                         .HasColumnType("int");
 
@@ -121,12 +118,12 @@ namespace QuestionnaireManager.Data.Migrations
                     b.HasOne("QuestionnaireManager.Domain.Model.Answer", null)
                         .WithOne("ChildQuestion")
                         .HasForeignKey("QuestionnaireManager.Domain.Model.Question", "ParentAnswerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("QuestionnaireManager.Domain.Model.Questionnaire", null)
                         .WithMany("Questions")
                         .HasForeignKey("QuestionnaireId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 

@@ -9,6 +9,7 @@ using QuestionnaireManager.Application.Queries.GetQuestionById;
 using QuestionnaireManager.Rest.Controllers.Utils;
 using QuestionnaireManager.Rest.Model.Request;
 using QuestionnaireManager.Rest.Model.Response;
+using QuestionnaireManager.Rest.Services;
 using QuestionnaireManager.Rest.Utils;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -17,8 +18,10 @@ namespace QuestionnaireManager.Rest.Controllers;
 [Route("questionnaires/{questionnaireId:int}/questions/{questionId:int}")]
 public class AnswersController : BaseController
 {
-    public AnswersController(IMediator mediator) : base(mediator)
+    private readonly IAnswerEnrichmentService _answerEnrichmentService;
+    public AnswersController(IMediator mediator, IAnswerEnrichmentService answerEnrichmentService) : base(mediator)
     {
+        _answerEnrichmentService = answerEnrichmentService;
     }
 
     [HttpPost]
@@ -28,15 +31,17 @@ public class AnswersController : BaseController
     [SwaggerResponse(404, "Not Found")]
     [SwaggerResponse(422, "UnprocessableEntity")]
     [SwaggerResponse(500, "Internal Server Error")]
-    public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerRequest request, int questionnaireId, int questionId)
+    public async Task<IActionResult> CreateAnswer([FromBody] CreateAnswerRequest request, int questionnaireId,
+        int questionId)
     {
+        var enhancedAnswer = await _answerEnrichmentService.EnrichAnswerAsync(request.Description);
         var command =
-            new CreateAnswerCommand(questionnaireId, questionId, request.Description);
+            new CreateAnswerCommand(questionnaireId, questionId, enhancedAnswer);
         var result = await Mediator.DispatchAsync(command);
+        var createdAnswer = new CreatedAnswerDto(enhancedAnswer);
+        if (!result.Failure) return Created("", createdAnswer);
 
-        if (!result.Failure) return Created();
-        
-        return result.ErrorMessage switch
+    return result.ErrorMessage switch
         {
             "Questionnaire not found or contains no questions" => NotFound($"Questionnaire with ID {questionnaireId} not found."),
             "Question not found" => NotFound($"Question with ID {questionId} not found."),

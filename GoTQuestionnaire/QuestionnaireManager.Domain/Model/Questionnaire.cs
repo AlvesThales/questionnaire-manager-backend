@@ -6,7 +6,6 @@ public class Questionnaire
     public string Name { get; set; }
     public int MaxAnswers { get; set; }
     public int MaxQuestions { get; set; }
-    public bool HasRoot { get; set; }
     public virtual ICollection<Question>? Questions { get; set; }
 
     public Questionnaire(string name, int maxAnswers, int maxQuestions)

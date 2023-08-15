@@ -27,7 +27,7 @@ public class QuestionnaireManagerContext : DbContext
             .HasMany(q => q.Questions)
             .WithOne()
             .HasForeignKey("QuestionnaireId")
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
 
         // Configure Question-Answer relationship
         modelBuilder.Entity<Question>()
@@ -43,6 +43,6 @@ public class QuestionnaireManagerContext : DbContext
             .WithOne()
             .HasForeignKey<Question>("ParentAnswerId")
             .IsRequired(false)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

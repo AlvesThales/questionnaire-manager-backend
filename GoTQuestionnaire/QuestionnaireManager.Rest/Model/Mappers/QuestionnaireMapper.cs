@@ -14,7 +14,6 @@ public static class QuestionnaireMapper
             Name = questionnaire.Name,
             MaxAnswers = questionnaire.MaxAnswers,
             MaxQuestions = questionnaire.MaxQuestions,
-            HasRoot = questionnaire.HasRoot,
             Questions = questionnaire.Questions.Select(q => new QuestionDto
             {
                 Id = q.Id,

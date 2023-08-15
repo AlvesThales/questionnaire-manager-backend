@@ -19,6 +19,7 @@ using QuestionnaireManager.Data;
 using QuestionnaireManager.Data.Repositories;
 using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Rest.Controllers.Utils;
+using QuestionnaireManager.Rest.Services;
 
 namespace QuestionnaireManager.Rest.Startup;
 
@@ -56,5 +57,10 @@ public static class Registry
         services.AddDbContext<QuestionnaireManagerContext>(
             options => options.UseSqlServer(configuration.GetConnectionString("QuestionnaireDatabase"))
         );
+        
+        services.AddLogging(loggingBuilder => loggingBuilder.AddConsole());
+        services.AddHttpClient<GoTApiService>();
+        services.AddScoped<IAnswerEnrichmentService, AnswerEnrichmentService>();
+
     }
 }

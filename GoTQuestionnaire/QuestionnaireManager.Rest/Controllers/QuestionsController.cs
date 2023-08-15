@@ -33,13 +33,14 @@ public class QuestionsController : BaseController
 
         var result = await Mediator.DispatchAsync(command);
 
-        if (result.Failure)
+        if (!result.Failure) return Created();
+        
+        return result.ErrorMessage switch
         {
-            return result.ErrorMessage == "Questionnaire not found" ? 
-                NotFound($"Questionnaire with ID {questionnaireId} not found.") : 
-                Problem(result.ErrorMessage);
-        }
-        return Created();
+            "Questionnaire not found" => NotFound($"Questionnaire with ID {questionnaireId} not found."),
+            "Questionnaire already has a root question" => Unprocessable($"Questionnaire already has a root question. Delete the current one before trying to add a new one."),
+            _ => Problem(result.ErrorMessage)
+        };
     }
     
     [HttpPost]
@@ -54,13 +55,15 @@ public class QuestionsController : BaseController
         var command =
             new CreateQuestionCommand(questionnaireId, request.ParentAnswerId, request.Description);
         var result = await Mediator.DispatchAsync(command);
+        
         if (!result.Failure) return Created();
         
         return result.ErrorMessage switch
         {
             "Questionnaire not found" => NotFound($"Questionnaire with ID {questionnaireId} not found."),
             "Answer not found" => NotFound($"Answer with ID {request.ParentAnswerId} not found."),
-            "Questions limit has been reached." => Unprocessable($"Questionnaire with ID {questionnaireId} has reached it's question limit. Can't create more questions."),
+            "Answer already have a following question" => Unprocessable($"Answer already have a following question. Delete the current one before trying to add a new one."),
+            "Questions limit has been reached" => Unprocessable($"Questionnaire with ID {questionnaireId} has reached it's question limit. Can't create more questions."),
             _ => Problem(result.ErrorMessage)
         };
     }

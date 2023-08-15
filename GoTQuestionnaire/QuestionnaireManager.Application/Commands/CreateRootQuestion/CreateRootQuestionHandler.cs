@@ -22,10 +22,9 @@ public class CreateRootQuestionHandler : ICommandHandler<CreateRootQuestionComma
         
         var existingRootQuestion = questionnaire.Questions.FirstOrDefault(q => q.IsRoot);
         if (existingRootQuestion != null)
-            questionnaire.Questions.Remove(existingRootQuestion);
+            return Result.Fail("Questionnaire already has a root question");
         
         var question = new Question(command.Description) { IsRoot = true };
-        questionnaire.HasRoot = true;
         questionnaire.Questions.Clear();
         questionnaire.Questions.Add(question);
         await _questionnaireRepository.SaveChangesAsync();

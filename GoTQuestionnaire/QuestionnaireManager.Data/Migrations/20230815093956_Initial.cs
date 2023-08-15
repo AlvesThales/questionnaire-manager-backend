@@ -18,8 +18,7 @@ namespace QuestionnaireManager.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaxAnswers = table.Column<int>(type: "int", nullable: false),
-                    MaxQuestions = table.Column<int>(type: "int", nullable: false),
-                    HasRoot = table.Column<bool>(type: "bit", nullable: false)
+                    MaxQuestions = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,13 +58,13 @@ namespace QuestionnaireManager.Data.Migrations
                         column: x => x.ParentAnswerId,
                         principalTable: "Answers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Questions_Questionnaires_QuestionnaireId",
                         column: x => x.QuestionnaireId,
                         principalTable: "Questionnaires",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

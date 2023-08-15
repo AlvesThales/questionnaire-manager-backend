@@ -16,8 +16,10 @@ namespace QuestionnaireManager.Rest.Controllers;
 [Route("questionnaires")]
 public class QuestionnairesController : BaseController
 {
-    public QuestionnairesController(IMediator mediator) : base(mediator)
+    private readonly ILogger<QuestionnairesController> _logger;
+    public QuestionnairesController(IMediator mediator, ILogger<QuestionnairesController> logger) : base(mediator)
     {
+        _logger = logger;
     }
 
     [HttpPost]
@@ -28,6 +30,8 @@ public class QuestionnairesController : BaseController
     [SwaggerResponse(500, "Internal Server Error")]
     public async Task<IActionResult> CreateQuestionnaire([FromBody] CreateQuestionnaireRequest request)
     {
+        _logger.LogInformation("Received request to create questionnaire: {RequestName}", request.Name);
+        
         var command =
             new CreateQuestionnaireCommand(
                 new Questionnaire(request.Name, request.MaxAnswers, request.MaxQuestions));
@@ -45,6 +49,7 @@ public class QuestionnairesController : BaseController
     [SwaggerResponse(500, "Internal Server Error")]
     public async Task<IActionResult> GetAllQuestionnaires()
     {
+        _logger.LogInformation("Retrieving all questionnaires");
         var query = new GetQuestionnairesQuery();
         var questionnaires = await Mediator.DispatchAsync(query);
 
@@ -61,6 +66,7 @@ public class QuestionnairesController : BaseController
     [SwaggerResponse(500, "Internal Server Error")]
     public async Task<IActionResult> GetQuestionnaireById(int id)
     {
+        _logger.LogInformation("Retrieving questionnaire with id: {ID}", id);
         var query = new GetQuestionnaireByIdQuery(id);
         var questionnaire = await Mediator.DispatchAsync(query);
         if (questionnaire == null)
@@ -79,7 +85,7 @@ public class QuestionnairesController : BaseController
     {
         var command =
             new UpdateQuestionnaireCommand(
-                id, request.Name, request.MaxAnswers, request.MaxQuestions);
+                id, request.Name, request.MaxQuestions, request.MaxAnswers);
 
         var result = await Mediator.DispatchAsync(command);
 
@@ -94,6 +100,8 @@ public class QuestionnairesController : BaseController
     [SwaggerResponse(500, "Internal Server Error", typeof(Envelope))]
     public async Task<IActionResult> Delete(int id)
     {
+        _logger.LogInformation("Deleting questionnaire with id: {Id}", id);
+        
         var command =
             new DeleteQuestionnaireCommand(id);
 
