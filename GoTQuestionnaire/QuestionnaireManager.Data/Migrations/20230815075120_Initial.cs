@@ -25,7 +25,21 @@ namespace QuestionnaireManager.Data.Migrations
                 {
                     table.PrimaryKey("PK_Questionnaires", x => x.Id);
                 });
-            
+
+            migrationBuilder.CreateTable(
+                name: "Answers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ParentQuestionId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Questions",
                 columns: table => new
@@ -41,28 +55,15 @@ namespace QuestionnaireManager.Data.Migrations
                 {
                     table.PrimaryKey("PK_Questions", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Questions_Answers_ParentAnswerId",
+                        column: x => x.ParentAnswerId,
+                        principalTable: "Answers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Questions_Questionnaires_QuestionnaireId",
                         column: x => x.QuestionnaireId,
                         principalTable: "Questionnaires",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Answers",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParentQuestionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Answers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Answers_Questions_QuestionId",
-                        column: x => x.ParentQuestionId,
-                        principalTable: "Questions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -71,6 +72,13 @@ namespace QuestionnaireManager.Data.Migrations
                 name: "IX_Answers_ParentQuestionId",
                 table: "Answers",
                 column: "ParentQuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Questions_ParentAnswerId",
+                table: "Questions",
+                column: "ParentAnswerId",
+                unique: true,
+                filter: "[ParentAnswerId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questions_QuestionnaireId",
@@ -82,7 +90,8 @@ namespace QuestionnaireManager.Data.Migrations
                 table: "Answers",
                 column: "ParentQuestionId",
                 principalTable: "Questions",
-                principalColumn: "Id");
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />

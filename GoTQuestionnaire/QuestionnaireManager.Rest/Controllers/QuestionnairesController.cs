@@ -8,7 +8,6 @@ using QuestionnaireManager.Domain.Model;
 using QuestionnaireManager.Rest.Controllers.Utils;
 using QuestionnaireManager.Rest.Model.Mappers;
 using QuestionnaireManager.Rest.Model.Request;
-using QuestionnaireManager.Rest.Model.Response;
 using QuestionnaireManager.Rest.Utils;
 using Swashbuckle.AspNetCore.Annotations;
 

@@ -54,7 +54,8 @@ public class QuestionRepository : IQuestionRepository
         if (question == null)
             return Result.Fail("Question not found");
 
-        _context.Questions.Remove(question);
+        DeleteQuestionWithRelatedAnswers(question);
+        
         await _context.SaveChangesAsync();
 
         return Result.Ok(); 
@@ -63,5 +64,23 @@ public class QuestionRepository : IQuestionRepository
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
+    }
+    
+    private void DeleteQuestionWithRelatedAnswers(Question question)
+    {
+        if (question.Answers != null)
+        {
+            foreach (var answer in question.Answers.ToList())
+            {
+                _context.Answers.Remove(answer);
+            }
+
+            foreach (var childQuestion in question.Answers.Select(a => a.ChildQuestion).ToList())
+            {
+                if (childQuestion != null) DeleteQuestionWithRelatedAnswers(childQuestion);
+            }
+        }
+
+        _context.Questions.Remove(question);
     }
 }

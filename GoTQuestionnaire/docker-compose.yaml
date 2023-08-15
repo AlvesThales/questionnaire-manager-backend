@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  questionnaire-manager-api:
+    container_name: questionnaire-manager-api
+    image: questionnaire-manager-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    networks:
+      - dev-network
+
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+      SA_PASSWORD: "yourStrong(!)Password"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - dev-network
+
+networks:
+  dev-network:

@@ -18,6 +18,9 @@ namespace QuestionnaireManager.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("Proxies:ChangeTracking", false)
+                .HasAnnotation("Proxies:CheckEquality", false)
+                .HasAnnotation("Proxies:LazyLoading", true)
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -52,9 +55,6 @@ namespace QuestionnaireManager.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AnswerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -70,9 +70,9 @@ namespace QuestionnaireManager.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AnswerId")
+                    b.HasIndex("ParentAnswerId")
                         .IsUnique()
-                        .HasFilter("[AnswerId] IS NOT NULL");
+                        .HasFilter("[ParentAnswerId] IS NOT NULL");
 
                     b.HasIndex("QuestionnaireId");
 
@@ -107,24 +107,24 @@ namespace QuestionnaireManager.Data.Migrations
 
             modelBuilder.Entity("QuestionnaireManager.Domain.Model.Answer", b =>
                 {
-                    b.HasOne("QuestionnaireManager.Domain.Model.Question", "ParentQuestion")
+                    b.HasOne("QuestionnaireManager.Domain.Model.Question", null)
                         .WithMany("Answers")
-                        .HasForeignKey("ParentQuestionId");
-
-                    b.Navigation("ParentQuestion");
+                        .HasForeignKey("ParentQuestionId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("QuestionnaireManager.Domain.Model.Question", b =>
                 {
-                    b.HasOne("QuestionnaireManager.Domain.Model.Answer", "ParentAnswer")
+                    b.HasOne("QuestionnaireManager.Domain.Model.Answer", null)
                         .WithOne("ChildQuestion")
-                        .HasForeignKey("QuestionnaireManager.Domain.Model.Question", "AnswerId");
+                        .HasForeignKey("QuestionnaireManager.Domain.Model.Question", "ParentAnswerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("QuestionnaireManager.Domain.Model.Questionnaire", null)
                         .WithMany("Questions")
-                        .HasForeignKey("QuestionnaireId");
-
-                    b.Navigation("ParentAnswer");
+                        .HasForeignKey("QuestionnaireId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("QuestionnaireManager.Domain.Model.Answer", b =>

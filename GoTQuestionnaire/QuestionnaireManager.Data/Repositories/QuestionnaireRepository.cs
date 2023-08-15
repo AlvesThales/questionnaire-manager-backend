@@ -59,12 +59,22 @@ public class QuestionnaireRepository : IQuestionnaireRepository
     
     public async Task<Result> DeleteAsync(int id)
     {
-        var questionnaire = await _context.Questionnaires.FindAsync(id);
-        if (questionnaire == null)
-            return Result.Fail("Questionnaire not found");
+        var questionnaire = _context.Questionnaires
+            .Include(q => q.Questions)
+            .ThenInclude(q => q.Answers)
+            .SingleOrDefault(q => q.Id == id);
 
-        _context.Questionnaires.Remove(questionnaire);
-        await _context.SaveChangesAsync();
+        if (questionnaire != null)
+        {
+            foreach (var question in questionnaire.Questions)
+            {
+                DeleteQuestionWithRelatedAnswers(question);
+            }
+            
+            _context.Questionnaires.Remove(questionnaire);
+
+            await _context.SaveChangesAsync();
+        }
 
         return Result.Ok();
     }
@@ -72,5 +82,23 @@ public class QuestionnaireRepository : IQuestionnaireRepository
     public async Task SaveChangesAsync()
     {
         await _context.SaveChangesAsync();
+    }
+    
+    private void DeleteQuestionWithRelatedAnswers(Question question)
+    {
+        if (question.Answers != null)
+        {
+            foreach (var childQuestion in question.Answers.Select(a => a.ChildQuestion).ToList())
+            {
+                if (childQuestion != null) DeleteQuestionWithRelatedAnswers(childQuestion);
+            }
+            
+            foreach (var answer in question.Answers.ToList())
+            {
+                _context.Answers.Remove(answer);
+            }
+        }
+
+        _context.Questions.Remove(question);
     }
 }
