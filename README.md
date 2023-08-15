@@ -36,6 +36,7 @@ Features included:
 Some points to improve if there was more time, or for a real production scenario:
 - Increase the Unit Tests coverage to be higher than 80%
 - Add integration tests
+- Improve HATEOAS links
 - Add caching
 - Improve logging for more specific situations
 - Add a monitoring tool such as Kibana

@@ -78,11 +78,26 @@ public class AnswersController : BaseController
                         new()
                         {
                             Href = Url.Link("GetQuestionById", new {questionnaireId = questionnaireId, questionId = answer.ChildQuestion.Id}),
-                            Rel = "nextQuestion",
+                            Rel = "next-question",
                             Method = "GET"
                         }
                     }
-                } : null
+                } : null,
+                Links = new List<LinkDto>
+                {
+                    new()
+                    {
+                        Href = Url.Link("GetAnswerById", new { questionnaireId, questionId, answerId }),
+                        Rel = "self",
+                        Method = "GET"
+                    },
+                    new()
+                    {
+                        Href = Url.Link("CreateQuestion", new { questionnaireId }) + "/questions",
+                        Rel = "create-subsequent-question",
+                        Method = "POST"
+                    }
+                }
             }
         );
     }

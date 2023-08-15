@@ -43,7 +43,7 @@ public class QuestionsController : BaseController
         };
     }
     
-    [HttpPost]
+    [HttpPost(Name = "CreateQuestion")]
     [Route("questions")]
     [SwaggerResponse(201, "Created")]
     [SwaggerResponse(400, "Bad Request")]
