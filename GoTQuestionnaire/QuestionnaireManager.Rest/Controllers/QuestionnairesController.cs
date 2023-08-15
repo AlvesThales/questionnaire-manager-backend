@@ -69,10 +69,9 @@ public class QuestionnairesController : BaseController
         _logger.LogInformation("Retrieving questionnaire with id: {ID}", id);
         var query = new GetQuestionnaireByIdQuery(id);
         var questionnaire = await Mediator.DispatchAsync(query);
-        if (questionnaire == null)
-            NotFound($"Questionnaire with ID {id} not found.");
-
-        return Ok(QuestionnaireMapper.Map(questionnaire, Url));
+        return questionnaire == null ? 
+            NotFound($"Questionnaire with ID {id} not found.") : 
+            Ok(QuestionnaireMapper.Map(questionnaire, Url));
     }
     
     [HttpPut("{id:int}")]

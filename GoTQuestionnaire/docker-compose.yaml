@@ -15,6 +15,7 @@ services:
       - dev-network
 
   db:
+    container_name: questionnaire-manager-db
     image: "mcr.microsoft.com/mssql/server"
     environment:
       SA_PASSWORD: "yourStrong(!)Password"
