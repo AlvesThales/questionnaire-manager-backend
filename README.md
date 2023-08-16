@@ -10,7 +10,7 @@ To run this application you will need Docker and Docker-compose. Go to the root 
 docker-compose up -d --build
 ```
 
-The docker-compose file will do all the job and start the application at the url http://localhost:4200.
+The docker-compose file will do all the job and start the application at the url http://localhost:8000.
 
 To stop the application just execute the following command:
 ```shell
